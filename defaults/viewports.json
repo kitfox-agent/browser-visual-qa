@@ -1,0 +1,8 @@
+[
+  { "name": "mobile-sm", "width": 375, "height": 812, "dpr": 2 },
+  { "name": "mobile-lg", "width": 414, "height": 896, "dpr": 2 },
+  { "name": "tablet-p", "width": 768, "height": 1024, "dpr": 2 },
+  { "name": "tablet-l", "width": 1024, "height": 768, "dpr": 2 },
+  { "name": "desktop", "width": 1440, "height": 900, "dpr": 1 },
+  { "name": "desktop-lg", "width": 1920, "height": 1080, "dpr": 1 }
+]

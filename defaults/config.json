@@ -1,0 +1,15 @@
+{
+  "scroll": {
+    "stepPx": 400,
+    "delayMs": 100,
+    "postScrollWaitMs": 2000
+  },
+  "thresholds": {
+    "ssimThreshold": 0.85,
+    "pixelThreshold": 0.2,
+    "minHotspotPixels": 200
+  },
+  "mask": [],
+  "dismiss": [],
+  "timeout": 60000
+}

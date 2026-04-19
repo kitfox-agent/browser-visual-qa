@@ -1,0 +1,4 @@
+node_modules/
+test-artifacts/out/
+*.log
+.DS_Store

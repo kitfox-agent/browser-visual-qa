@@ -1,0 +1,25 @@
+{
+  "name": "browser-visual-qa",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Pixel-accurate visual regression testing for browser renders",
+  "bin": {
+    "compare": "bin/compare.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^24",
+    "pixelmatch": "^7",
+    "ssim.js": "^3",
+    "pngjs": "^7",
+    "sharp": "^0.33",
+    "yargs": "^17"
+  },
+  "scripts": {
+    "test": "node --test test/",
+    "start": "node bin/compare.mjs"
+  }
+}
