@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Pixel-accurate visual regression testing for browser renders",
   "bin": {
-    "compare": "bin/compare.mjs"
+    "browser-visual-qa": "bin/compare.mjs"
   },
   "engines": {
     "node": ">=20"
@@ -19,7 +19,7 @@
     "yargs": "^17"
   },
   "scripts": {
-    "test": "node --test test/",
+    "test": "node --test test/*.mjs",
     "start": "node bin/compare.mjs"
   }
 }
