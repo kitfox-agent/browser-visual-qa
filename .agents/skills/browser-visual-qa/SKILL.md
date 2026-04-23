@@ -120,6 +120,25 @@ node bin/compare.mjs --help
 
 ## Interpreting output
 
+### CRITICAL: Low SSIM does not always mean the clone is wrong
+
+The tool captures screenshots via headless Puppeteer. Some sites — especially Wix, Squarespace, and other platforms with progressive image loading — will produce **artificially low SSIM** because:
+
+- **Hero images stay blurred**: Progressive/lazy-loaded images may never finish loading in headless capture, even with `--wait-time`. The live site shows a blurry placeholder while the clone shows the full image, or vice versa.
+- **Map tiles don't render**: Google Maps, Mapbox, and similar embeds often fail to load tiles in headless mode.
+- **Animations freeze at different frames**: CSS animations and video posters captured at different moments create pixel differences that aren't real layout issues.
+- **Fonts swap late**: Web fonts that load after capture produce different text metrics between runs.
+
+**When overall SSIM is below ~0.5 but section-level landmark SSIM varies widely, suspect capture artifacts rather than real clone divergence.** Verify with direct browser inspection (chrome-devtools MCP or Playwright) before assuming the clone is broken.
+
+### Workflow for low-SSIM results
+
+1. Read `summary.json` — check which specific sections have low SSIM
+2. Open `composite.png` — visually inspect whether differences are layout/content or capture artifacts (blurred images, missing map tiles, animation frames)
+3. If artifacts dominate: the clone is likely fine; note the capture limitation and move on
+4. If real layout differences exist: use section crops in `sections/` to identify exact CSS/HTML divergence
+5. Fix the real issues, re-run, and compare section SSIM deltas to confirm improvement
+
 ### `summary.json`
 
 Key fields:
@@ -138,38 +157,14 @@ Key fields:
 - **1**: run completed but at least one threshold or self-test determinism check failed
 - **2**: runtime error such as navigation/auth/DNS/SSL/capture failure
 
-## Configuration
-
-Example `config.json`:
-
-```json
-{
-  "scroll": {
-    "stepPx": 400,
-    "delayMs": 100,
-    "postScrollWaitMs": 2000
-  },
-  "thresholds": {
-    "ssimThreshold": 0.85,
-    "pixelThreshold": 0.2,
-    "minHotspotPixels": 200
-  },
-  "viewports": [
-    { "name": "desktop", "width": 1440, "height": 900, "dpr": 1 }
-  ],
-  "mask": [],
-  "dismiss": [],
-  "timeout": 60000,
-  "waitSelector": null,
-  "waitTime": 0
-}
-```
-
 ## Troubleshooting
 
-- Use `--wait-time` or `--wait-selector` for slow client rendering.
+- Use `--wait-time 10000` for progressive-loading sites (Wix, Squarespace). This helps but won't fully resolve lazy hero images.
+- Use `--mask` on known-nondeterministic elements (maps, carousels, video embeds, timestamps) to exclude them from scoring.
+- Use `--dismiss` for cookie banners and overlay modals before capture.
 - Use `--cookies`, `--auth-header`, or basic auth in the URL for protected pages.
 - Set `CHROME_PATH` if you need a specific local browser binary.
+- If SSIM stays below ~0.5 despite correct CSS/HTML: the gap is likely capture artifacts, not clone bugs. Verify visually in a real browser before continuing to chase the score.
 
 ## Related
 

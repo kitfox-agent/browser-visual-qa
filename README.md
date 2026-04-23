@@ -271,6 +271,8 @@ Hotspots are clusters of changed pixels. Up to 5 per viewport are listed with:
 | Dynamic content (timestamps, ads, carousels) | `--mask ".timestamp,.ad-banner"` |
 | Authentication | `--cookies ./cookies.json`, `--auth-header "Bearer ..."`, or basic auth in URL |
 | SSL errors | Fix trust locally, or use a browser configured with `CHROME_PATH` |
+| Progressive loading (Wix, Squarespace) | Use `--wait-time 10000` and `--mask` for hero images and maps. SSIM floor ~0.5 is expected; verify visually |
+| Low SSIM but clone looks correct | Capture artifacts (blurred lazy images, missing map tiles). Check `composite.png` before chasing the score |
 
 ## OpenCode skill
 
